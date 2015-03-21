@@ -21,4 +21,5 @@ public/sprite.png
 style/sprite.styl
 
 .idea/
+*.iml
 
