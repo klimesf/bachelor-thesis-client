@@ -1,5 +1,10 @@
 module.exports = (grunt) ->
   grunt.initConfig
+    coffee:
+      compile:
+        files:
+          'public/script.js': 'script/index.coffee'
+
     stylus:
       compile:
         options:
@@ -18,20 +23,20 @@ module.exports = (grunt) ->
         files:
           'public/script.js': 'script/index.coffee'
 
-    sprite:
-      compile:
-        src: 'sprite/*'
-        destImg: 'public/sprite.png'
-        destCSS: 'style/sprite.styl'
-        imgPath: './sprite.png'
-
     clean:
       public: [
-        'style/sprite.styl'
         'public/script.js'
         'public/style.css'
         'public/sprite.png'
       ]
+
+    concat:
+      bootstrap:
+        src: [
+          'bower_components/bootstrap/dist'
+        ]
+
+
 
     uglify:
       compile:
@@ -49,13 +54,14 @@ module.exports = (grunt) ->
           'public/style.css': 'public/style.min.css'
           'public/script.js': 'public/script.min.js'
 
+  grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-stylus'
   grunt.loadNpmTasks 'grunt-browserify'
-  grunt.loadNpmTasks 'grunt-spritesmith'
+#  grunt.loadNpmTasks 'grunt-spritesmith'
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-cssmin'
   grunt.loadNpmTasks 'grunt-rename'
 
-  grunt.registerTask 'dev', ['clean', 'sprite', 'stylus', 'browserify']
+  grunt.registerTask 'dev', ['clean', 'coffee', 'browserify', 'stylus']
   grunt.registerTask 'dist', ['dev', 'uglify', 'cssmin', 'rename']
