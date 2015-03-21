@@ -18,7 +18,11 @@ bower_components
 public/style.css
 public/script.js
 public/sprite.png
+public/bootstrap.css.map
+script/*.js
+style/*.css
 style/sprite.styl
+
 
 .idea/
 *.iml

@@ -1,0 +1,17 @@
+{
+  "name": "cz.filipklimes.bachelor.inspection.model.User",
+  "fields": [
+    {
+      "name": "username",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "password",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "confirmed",
+      "type": "boolean"
+    }
+  ]
+}

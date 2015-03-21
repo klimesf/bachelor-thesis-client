@@ -16,7 +16,25 @@
 </head>
 
 <body>
-<a href="#" class="ajax-call">Make an AJAX call</a>
+<div class="container">
+    <div class="starter-template">
+        <h1>Filip Klimeš - bachelor thesis client</h1>
+
+        <p class="lead">Creates forms from entity metadata which is retrieved via RESTful API.</p>
+        <a href="#" class="ajax-call">Create form for User entity</a>
+
+        <div id="form-container"></div>
+    </div>
+</div>
 <script src="public/script.js"></script>
+<script>
+    $(".ajax-call").click(function () {
+        var html = FormCreator.create("User", function (html) {
+            $("#form-container").html(html);
+        }, function (html) {
+            return '<div class="form-group">' + html + '</div>'
+        });
+    });
+</script>
 </body>
 </html>

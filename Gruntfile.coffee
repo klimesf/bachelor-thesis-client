@@ -3,7 +3,7 @@ module.exports = (grunt) ->
     coffee:
       compile:
         files:
-          'public/script.js': 'script/index.coffee'
+          'script/index.js': 'script/index.coffee'
 
     stylus:
       compile:
@@ -13,7 +13,7 @@ module.exports = (grunt) ->
           'include css': true
           paths: ['bower_components']
         files:
-          'public/style.css': 'style/index.styl'
+          'style/index.css': 'style/index.styl'
 
     browserify:
       compile:
@@ -21,7 +21,7 @@ module.exports = (grunt) ->
           transform: ['coffeeify']
           shim: grunt.file.readJSON('shim.json')
         files:
-          'public/script.js': 'script/index.coffee'
+          'script/index.js': 'script/index.coffee'
 
     clean:
       public: [
@@ -31,12 +31,21 @@ module.exports = (grunt) ->
       ]
 
     concat:
-      bootstrap:
+      js:
         src: [
-          'bower_components/bootstrap/dist'
+          'script/index.js',
+          'bower_components/bootstrap/dist/js/bootstrap.js'
         ]
-
-
+        dest: 'public/script.js'
+      css:
+        src: ['bower_components/bootstrap/dist/css/bootstrap.css',
+              'bower_components/bootstrap/dist/css/bootstrap-theme.css',
+              'style/index.css'
+        ]
+        dest: 'public/style.css'
+      cssMap:
+        src: ['bower_components/bootstrap/dist/css/bootstrap.css.map']
+        dest: 'public/bootstrap.css.map'
 
     uglify:
       compile:
@@ -57,11 +66,11 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-stylus'
   grunt.loadNpmTasks 'grunt-browserify'
-#  grunt.loadNpmTasks 'grunt-spritesmith'
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-cssmin'
+  grunt.loadNpmTasks 'grunt-contrib-concat'
   grunt.loadNpmTasks 'grunt-rename'
 
-  grunt.registerTask 'dev', ['clean', 'coffee', 'browserify', 'stylus']
+  grunt.registerTask 'dev', ['clean', 'coffee', 'browserify', 'stylus', 'concat']
   grunt.registerTask 'dist', ['dev', 'uglify', 'cssmin', 'rename']
