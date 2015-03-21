@@ -1,0 +1,17 @@
+{
+  "name": "klimesf/bachelor-client",
+  "version": "0.0.1",
+  "authors": [
+    "Filip Klimes <filip@filipklimes.cz>"
+  ],
+  "description": "Implementation of my bachelor thesis at FEE CTU.",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
