@@ -1,0 +1,37 @@
+{
+  "name": "bachelor-thesis-client",
+  "version": "0.0.1",
+  "description": "Implementation of my bachelor thesis at FEE CTU.",
+  "main": "-",
+  "scripts": {
+    "test": "-"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/klimesf/bachelor-thesis-client"
+  },
+  "keywords": [
+    "setup",
+    "template"
+  ],
+  "author": "Filip Klimeš <filip@filipklimes.cz>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/klimesf/bachelor-thesis-client/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "coffeeify": "~0.5.1",
+    "grunt": "~0.4.1",
+    "grunt-browserify": "~1.2.4",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-contrib-cssmin": "~0.6.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-mincss": "~0.3.2",
+    "grunt-contrib-stylus": "~0.8.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-rename": "~0.1.2",
+    "grunt-spritesmith": "~1.7.0"
+  }
+}
