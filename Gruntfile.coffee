@@ -1,8 +1,10 @@
 module.exports = (grunt) ->
   grunt.initConfig
+
     coffee:
       compile:
         files:
+          'script/renderers.js': 'script/renderers.coffee'
           'script/index.js': 'script/index.coffee'
 
     stylus:
@@ -28,6 +30,7 @@ module.exports = (grunt) ->
         'public/script.js'
         'public/style.css'
         'public/sprite.png'
+        'script/renderers.js'
         'script/index.js'
         'style/index.css'
       ]
@@ -37,6 +40,7 @@ module.exports = (grunt) ->
         src: [
           'bower_components/jquery/dist/jquery.js'
           'bower_components/bootstrap/dist/js/bootstrap.js'
+          'script/renderers.js'
           'script/index.js'
         ]
         dest: 'public/script.js'

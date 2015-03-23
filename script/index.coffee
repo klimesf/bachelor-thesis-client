@@ -1,9 +1,7 @@
-#$ = require 'jquery'
-
-
 # String.capitalize
 String.prototype.capitalize = () ->
   return this.charAt(0).toUpperCase() + this.slice(1)
+
 
 # AJAX call
 loadDataFromServer = (address, method, successCallback, errorCallback) ->
@@ -21,7 +19,7 @@ loadDataFromServer = (address, method, successCallback, errorCallback) ->
   req.send()
 
 
-# global export of FormCreator class
+# global export of classes
 window.FormCreator or= {}
 
 
@@ -30,15 +28,25 @@ window.FormCreator or= {}
  ###
 class window.FormCreator
 
+  @formRenderer: new DefaultFormRenderer()
+
+  ###*
+   * Sets form renderer.
+   * @param {object} The form renderer, extending DefaultFormRenderer.
+   ###
+  @setFormRenderer: (formRenderer) ->
+    FormCreator.formRenderer = formRenderer
+
   ###*
    * Creates form for given class.
    * @param {string} FQN of the class.
+   * @param {function} Function that gets called when HTML is ready to be outputted.
    ###
-  @create: (className, displayCallback, inputWrapperCallback) ->
+  @create: (className, displayCallback) ->
     loadDataFromServer className + ".json", "GET",
       (
         (data) ->
-          html = FormCreator.createFormFromJSON data, inputWrapperCallback
+          html = FormCreator.createFormFromJSON data, FormCreator.formRenderer
           displayCallback html
       ), (
         (textStatus) ->
@@ -49,42 +57,25 @@ class window.FormCreator
    * Parses JSON and creates form.
    * @param {string} JSON to parse.
    ###
-  @createFormFromJSON: (json, inputWrapperCallback) ->
+  @createFormFromJSON: (json, formRenderer) ->
     data = JSON.parse json
-    html = "<h3>#{data.name}:</h3>"
-
-    html = html + '<form role="form">'
+    html = formRenderer.beginForm data.name
     for field in data.fields
-      html = html + InputCreator.createInput field.name, field.type, inputWrapperCallback
-    html = html + '</form>'
+      html = html + InputFactory.createInput field.name, field.type, formRenderer
+    html = html + formRenderer.endForm data.name
 
 
-class InputCreator
-
-  ###*
-   * Creates checkbox for given field name.
-   * @param {string} Name of the field which will also be used as a name of the input.
-   ###
-  @createCheckbox: (name, wrapperCallback) ->
-    html = '<div class="checkbox"><label><input type=\"checkbox\" name="' + name + '" /> ' + name + '</label></div>'
-    if wrapperCallback then return wrapperCallback html else return html
-
-  ###*
-   * Creates text field for given field name.
-   * @param {string} Name of the field which will also be used as a name of the input.
-   ###
-  @createText: (name, wrapperCallback) ->
-    html = '<label for="' + name + '" class="col-sm-2 control-label"> ' + name.capitalize() + '</label>' +
-        '<div class="col-sm-10"><input type="text" name="' + name + '" class="form-control" placeholder="Enter ' +
-        name.capitalize() + '" /></div>'
-    if wrapperCallback then return wrapperCallback html else return html
+###*
+  * Class which decides what methods to call on the FormRenderer
+ ###
+class InputFactory
 
   ###*
    * Creates input for the given field name and type.
    * @param {string} Name of the field.
    * @param {string} Type of the field.
    ###
-  @createInput: (name, type, wrapperCallback) ->
+  @createInput: (name, type, formRenderer) ->
     switch type
-      when "boolean" then return InputCreator.createCheckbox name, wrapperCallback
-      when "java.lang.String" then return InputCreator.createText name, wrapperCallback
+      when "boolean" then return formRenderer.createCheckbox name
+      when "java.lang.String" then return formRenderer.createText name

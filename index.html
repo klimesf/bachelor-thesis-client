@@ -28,6 +28,7 @@
 </div>
 <script src="public/script.js"></script>
 <script>
+    FormCreator.setFormRenderer(new BootstrapFormRenderer());
     $(".ajax-call").click(function () {
         var html = FormCreator.create("User", function (html) {
             $("#form-container").html(html);
