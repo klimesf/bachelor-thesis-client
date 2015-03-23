@@ -1,9 +1,24 @@
-$ = require 'jquery'
+#$ = require 'jquery'
 
 
 # String.capitalize
 String.prototype.capitalize = () ->
   return this.charAt(0).toUpperCase() + this.slice(1)
+
+# AJAX call
+loadDataFromServer = (address, method, successCallback, errorCallback) ->
+  req = new XMLHttpRequest()
+
+  req.addEventListener 'readystatechange', ->
+    if req.readyState is 4                        # ReadyState Complete
+      successResultCodes = [200, 304]
+      if req.status in successResultCodes
+        successCallback req.responseText
+      else
+        errorCallback req.responseText
+
+  req.open method, address, false
+  req.send()
 
 
 # global export of FormCreator class
@@ -20,14 +35,15 @@ class window.FormCreator
    * @param {string} FQN of the class.
    ###
   @create: (className, displayCallback, inputWrapperCallback) ->
-    $.ajax
-      url: className + ".json"
-      dataType: "html"
-      error: (jqHXR, textStatus, errorThrown) ->
-        alert "AJAX Error: #{textStatus}"
-      success: (data, textStatus, jqXHR) ->
-        html = FormCreator.createFormFromJSON data, inputWrapperCallback
-        displayCallback html
+    loadDataFromServer className + ".json", "GET",
+      (
+        (data) ->
+          html = FormCreator.createFormFromJSON data, inputWrapperCallback
+          displayCallback html
+      ), (
+        (textStatus) ->
+          alert "AJAX Error: #{textStatus}"
+      )
 
   ###*
    * Parses JSON and creates form.
@@ -60,7 +76,7 @@ class InputCreator
   @createText: (name, wrapperCallback) ->
     html = '<label for="' + name + '" class="col-sm-2 control-label"> ' + name.capitalize() + '</label>' +
         '<div class="col-sm-10"><input type="text" name="' + name + '" class="form-control" placeholder="Enter ' +
-        name.capitalize() + '"/></div>'
+        name.capitalize() + '" /></div>'
     if wrapperCallback then return wrapperCallback html else return html
 
   ###*

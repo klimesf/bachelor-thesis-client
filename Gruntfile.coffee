@@ -28,13 +28,16 @@ module.exports = (grunt) ->
         'public/script.js'
         'public/style.css'
         'public/sprite.png'
+        'script/index.js'
+        'style/index.css'
       ]
 
     concat:
       js:
         src: [
-          'script/index.js',
+          'bower_components/jquery/dist/jquery.js'
           'bower_components/bootstrap/dist/js/bootstrap.js'
+          'script/index.js'
         ]
         dest: 'public/script.js'
       css:
